@@ -52,6 +52,21 @@ namespace Microsoft.EntityFrameworkCore.Query
             => await Fixture.QueryAsserter.AssertSingleResult(actualQuery, expectedQuery, asserter, entryCount);
 
         protected virtual async Task AssertSingleResult<TItem1>(
+            Func<IQueryable<TItem1>, Task<int?>> query,
+            Action<object, object> asserter = null,
+            int entryCount = 0)
+            where TItem1 : class
+            => await AssertSingleResult(query, query, asserter, entryCount);
+
+        protected virtual async Task AssertSingleResult<TItem1>(
+            Func<IQueryable<TItem1>, Task<int?>> actualQuery,
+            Func<IQueryable<TItem1>, Task<int?>> expectedQuery,
+            Action<object, object> asserter = null,
+            int entryCount = 0)
+            where TItem1 : class
+            => await Fixture.QueryAsserter.AssertSingleResult(actualQuery, expectedQuery, asserter, entryCount);
+
+        protected virtual async Task AssertSingleResult<TItem1>(
             Func<IQueryable<TItem1>, Task<long>> query,
             Action<object, object> asserter = null,
             int entryCount = 0)
